@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
 
 		# Chat window
 		self.chat_area = QTextEdit(self)
-		self.chat_area.setGeometry(10, 10, 480, 320)  # (left-padding, right-padding, width, height)
+		self.chat_area.setGeometry(10, 10, 480, 320)  # (left-padding, top-padding, width, height)
 
 		# Input fields
 		self.input_field = QLineEdit(self)
@@ -19,7 +19,11 @@ class MainWindow(QMainWindow):
 		# Buttons
 		self.button = QPushButton("Send", self)
 		self.button.clicked.connect(self.send_msg)
-		self.button.setGeometry(10, 405, 80, 35)
+		self.button.setGeometry(500, 350, 100, 40)
+
+		# Err msg
+		self.error_msg = QLabel("", self)
+		self.error_msg.setGeometry(10, 380, 550, 100)
 
 		self.show()
 
@@ -27,8 +31,14 @@ class MainWindow(QMainWindow):
 	def send_msg(self):
 		chat = ChatBot()
 
-		user_input = self.input_field.text()
-		chat.get_response(user_input)
+		try:
+			user_input = self.input_field.text()
+			chat.get_response(user_input)
+		except:
+			self.error_msg.setText("ERROR: Invalid API key and/or deprecated engine model.\nPlease check console for details.")
+
+			print("ERROR: Invalid API key and/or deprecated engine model.\nPlease check backend.py to update the engine\nAlso create an .env file to input your API key")
+
 
 
 
