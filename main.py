@@ -5,7 +5,7 @@ from backend import ChatBot
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		grid = QGridLayout()
+		chat = ChatBot()
 		self.resize(700, 500)  # Width, Height
 
 		# Chat window
@@ -29,8 +29,6 @@ class MainWindow(QMainWindow):
 
 
 	def send_msg(self):
-		chat = ChatBot()
-
 		try:
 			user_input = self.input_field.text()
 			chat.get_response(user_input)
