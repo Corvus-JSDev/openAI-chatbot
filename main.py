@@ -1,6 +1,7 @@
 import sys
 from PyQt6.QtWidgets import *
 from backend import ChatBot
+import threading
 
 class MainWindow(QMainWindow):
 	def __init__(self):
@@ -15,6 +16,7 @@ class MainWindow(QMainWindow):
 		# Input fields
 		self.input_field = QLineEdit(self)
 		self.input_field.setGeometry(10, 350, 480, 40)
+		self.input_field.returnPressed.connect(self.send_msg)
 
 		# Buttons
 		self.button = QPushButton("Send", self)
@@ -29,21 +31,23 @@ class MainWindow(QMainWindow):
 
 
 	def send_msg(self):
-		try:
-			user_input = self.input_field.text().strip()
-			self.chat_area.append(f"You: {user_input}")
-
-			reply = self.chat.get_response(user_input)
-			self.chat_area.append(f"\n<p style='font-weight: 600;'>BOT: {reply}</p>\n")
-
-		except:
-			self.error_msg.setText("ERROR: Invalid API key and/or deprecated engine model.\nPlease check console for details.")
-
-			print("ERROR: Invalid API key and/or deprecated engine model.\nPlease check backend.py to update the engine\nAlso create an .env file to input your API key")
-
+		user_input = self.input_field.text().strip()
+		self.chat_area.append(f"You: {user_input}")
 		self.input_field.clear()
 
+		chat_bot_thread = threading.Thread(target=self.get_bot_response, args=(user_input, ))
+		chat_bot_thread.start()
 
+
+
+	def get_bot_response(self, user_input):
+		try:
+			reply = self.chat.get_response(user_input)
+			self.chat_area.append(f"\n<p style='font-weight: 600;'>BOT: {reply}</p>\n")
+		except:
+			self.error_msg.setText(
+				"ERROR: Invalid API key and/or deprecated engine model.\nPlease check console for details.")
+			print("ERROR: Invalid API key and/or deprecated engine model.\nPlease check backend.py to update the engine\nAlso create an .env file to input your API key")
 
 
 app = QApplication(sys.argv)
