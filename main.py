@@ -31,18 +31,17 @@ class MainWindow(QMainWindow):
 	def send_msg(self):
 		try:
 			user_input = self.input_field.text().strip()
-			self.chat_area.append(f"\nYou: {user_input}")
+			self.chat_area.append(f"You: {user_input}")
 
 			reply = self.chat.get_response(user_input)
-			self.chat_area.append(f"\n <p style='font-weight: 600;'>BOT: {reply}</p>")
-
-			self.input_field = QLineEdit("", self)
-
+			self.chat_area.append(f"\n<p style='font-weight: 600;'>BOT: {reply}</p>\n")
 
 		except:
 			self.error_msg.setText("ERROR: Invalid API key and/or deprecated engine model.\nPlease check console for details.")
 
 			print("ERROR: Invalid API key and/or deprecated engine model.\nPlease check backend.py to update the engine\nAlso create an .env file to input your API key")
+
+		self.input_field.clear()
 
 
 
