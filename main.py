@@ -5,7 +5,7 @@ from backend import ChatBot
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		chat = ChatBot()
+		self.chat = ChatBot()
 		self.resize(700, 500)  # Width, Height
 
 		# Chat window
@@ -30,8 +30,15 @@ class MainWindow(QMainWindow):
 
 	def send_msg(self):
 		try:
-			user_input = self.input_field.text()
-			chat.get_response(user_input)
+			user_input = self.input_field.text().strip()
+			self.chat_area.append(f"\nYou: {user_input}")
+
+			reply = self.chat.get_response(user_input)
+			self.chat_area.append(f"\n <p style='font-weight: 600;'>BOT: {reply}</p>")
+
+			self.input_field = QLineEdit("", self)
+
+
 		except:
 			self.error_msg.setText("ERROR: Invalid API key and/or deprecated engine model.\nPlease check console for details.")
 
