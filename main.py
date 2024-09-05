@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import *
-# from PyQt6.QtWidgets import QMainWindow
+from backend import ChatBot
 
 class MainWindow(QMainWindow):
 	def __init__(self):
@@ -21,11 +21,6 @@ class MainWindow(QMainWindow):
 		self.button.setGeometry(10, 405, 80, 35)
 
 		self.show()
-
-
-
-class ChatBot:
-	pass
 
 
 
