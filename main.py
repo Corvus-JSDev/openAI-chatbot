@@ -18,9 +18,17 @@ class MainWindow(QMainWindow):
 
 		# Buttons
 		self.button = QPushButton("Send", self)
+		self.button.clicked.connect(self.send_msg)
 		self.button.setGeometry(10, 405, 80, 35)
 
 		self.show()
+
+
+	def send_msg(self):
+		user_input = self.input_field.text()
+		chat = ChatBot()
+		chat.get_response(user_input)
+
 
 
 
